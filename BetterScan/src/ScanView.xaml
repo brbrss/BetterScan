@@ -12,26 +12,30 @@
     </UserControl.Resources>
 
 
-    <Grid VerticalAlignment="Top" HorizontalAlignment="Left" >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" >
 
-        <Button Content="Select Folder" Grid.Row="1" Grid.Column="0" 
+
+        <Button Content="Select Folder"  
                 Click="ClickSelectFolder"/>
-        <Label Content="Folder Path:"  Grid.Row="2" Grid.Column="0" />
+        <Label Content="Folder Path:"  />
         <Label 
             Content="{Binding TargetFolder,
             Converter={StaticResource EmptyPathConverter}}" 
-               Grid.Row="2" Grid.Column="1" />
-        <Button Content="Scan"  Grid.Row="1" Grid.Column="1"  Click="ClickScan"/>
-    </Grid>
+                />
+        <Button Content="Scan"    Click="ClickScan"/>
+
+
+        <ListView ItemsSource="{Binding CandidateList}">
+
+            <ListView.View>
+
+                <GridView AllowsColumnReorder="false" ColumnHeaderToolTip="Scan Result">
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Selected}" Header="Selected" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=FilePath}"  Header="File Path" Width="100"/>
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+    </StackPanel>
 </UserControl>

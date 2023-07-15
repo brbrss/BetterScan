@@ -52,8 +52,27 @@ namespace BetterScan
         private void ClickScan(object sender, RoutedEventArgs e)
         {
             string path = model.TargetFolder;
-            List<string> plist = new List<string>();
-            List<System.IO.FileInfo> res = Helper.Search(path, plist);
+            List<string> plist = new List<string> { "*.exe", "*.bat" };
+            try
+            {
+                List<System.IO.FileInfo> res = Helper.Search(path, plist);
+                var arr = new List<Candidate>();
+                foreach (var item in res)
+                {
+                    Candidate c = new Candidate
+                    {
+                        Selected = false,
+                        FilePath = item.FullName
+                    };
+                    arr.Add(c);
+                }
+                model.CandidateList = arr;
+            }
+            catch (Exception E)
+            {
+                logger.Error(E.Message);
+                plugin.PlayniteApi.Dialogs.ShowErrorMessage(E.Message, " Error");
+            }
 
         }
 

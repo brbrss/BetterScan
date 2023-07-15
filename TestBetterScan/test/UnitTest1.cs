@@ -11,9 +11,6 @@ namespace TestBetterScan
         [TestMethod]
         public void TestTest()
         {
-            string path = "";
-            List<string> plist = new List<string> { };
-            //BetterScan.Helper.Search(path, plist);
             Assert.IsTrue(true);
         }
 
