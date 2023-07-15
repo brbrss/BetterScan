@@ -6,8 +6,32 @@
              xmlns:local="clr-namespace:BetterScan"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Button Content="Scan Folder..."  Margin="5,0" Click="ClickScanFolder"/>
 
+    <UserControl.Resources>
+        <local:EmptyPathConverter x:Key="EmptyPathConverter"/>
+    </UserControl.Resources>
+
+
+    <Grid VerticalAlignment="Top" HorizontalAlignment="Left" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Button Content="Select Folder" Grid.Row="1" Grid.Column="0" 
+                Click="ClickSelectFolder"/>
+        <Label Content="Folder Path:"  Grid.Row="2" Grid.Column="0" />
+        <Label 
+            Content="{Binding TargetFolder,
+            Converter={StaticResource EmptyPathConverter}}" 
+               Grid.Row="2" Grid.Column="1" />
+        <Button Content="Scan"  Grid.Row="1" Grid.Column="1"  Click=""/>
     </Grid>
 </UserControl>

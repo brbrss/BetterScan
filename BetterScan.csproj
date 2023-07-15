@@ -60,6 +60,7 @@
     <Compile Include="src\ScanView.xaml.cs">
       <DependentUpon>ScanView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\ScanViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="extension.yaml">

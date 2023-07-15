@@ -5,7 +5,7 @@ using Playnite.SDK.Models;
 using System.Windows;
 using System.Windows.Controls;
 using Playnite.SDK;
-
+using System.Windows.Data;
 
 namespace BetterScan
 {
@@ -17,6 +17,9 @@ namespace BetterScan
         private readonly BetterScan plugin;
         private readonly BetterScanSettingsViewModel settings;
         private static readonly ILogger logger = LogManager.GetLogger();
+        public ScanViewModel model = new ScanViewModel();
+        public string s = "good";
+
         public ScanView()
         {
             InitializeComponent();
@@ -27,8 +30,8 @@ namespace BetterScan
             {
                 this.plugin = plugin;
                 this.settings = settings;
+                DataContext = model;
                 InitializeComponent();
-                DataContext = this;
             }
             catch (Exception E)
             {
@@ -36,13 +39,14 @@ namespace BetterScan
                 plugin.PlayniteApi.Dialogs.ShowErrorMessage(E.Message, "Error during initializing GameImportView");
             }
         }
-        private void ClickScanFolder(object sender, RoutedEventArgs e)
+        private void ClickSelectFolder(object sender, RoutedEventArgs e)
         {
             string folder = plugin.PlayniteApi.Dialogs.SelectFolder();
-            if (settings.Settings.OptionRelPath)
-            {
-                folder = toRelFolder(folder);
-            }
+            model.TargetFolder = folder;
+            //if (settings.Settings.OptionRelPath)
+            //{
+            //    folder = toRelFolder(folder);
+            //}
             Window.GetWindow(this).Title = "Scan Result of " + folder;
             //plugin.PlayniteApi.Dialogs.ShowMessage(folder);
         }
@@ -51,6 +55,20 @@ namespace BetterScan
             string s = plugin.PlayniteApi.Paths.ApplicationPath;
             plugin.PlayniteApi.Dialogs.ShowMessage(s + '\n' + absFolder);
             return absFolder;
+        }
+    }
+
+
+    public class EmptyPathConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return (value is "") ? "(No Folder Selected)" : value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }
