@@ -18,7 +18,6 @@ namespace BetterScan
         private readonly BetterScanSettingsViewModel settings;
         private static readonly ILogger logger = LogManager.GetLogger();
         public ScanViewModel model = new ScanViewModel();
-        public string s = "good";
 
         public ScanView()
         {
@@ -50,6 +49,14 @@ namespace BetterScan
             Window.GetWindow(this).Title = "Scan Result of " + folder;
             //plugin.PlayniteApi.Dialogs.ShowMessage(folder);
         }
+        private void ClickScan(object sender, RoutedEventArgs e)
+        {
+            string path = model.TargetFolder;
+            List<string> plist = new List<string>();
+            List<System.IO.FileInfo> res = Helper.Search(path, plist);
+
+        }
+
         private string toRelFolder(string absFolder)
         {
             string s = plugin.PlayniteApi.Paths.ApplicationPath;

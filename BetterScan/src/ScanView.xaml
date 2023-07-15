@@ -32,6 +32,6 @@
             Content="{Binding TargetFolder,
             Converter={StaticResource EmptyPathConverter}}" 
                Grid.Row="2" Grid.Column="1" />
-        <Button Content="Scan"  Grid.Row="1" Grid.Column="1"  Click=""/>
+        <Button Content="Scan"  Grid.Row="1" Grid.Column="1"  Click="ClickScan"/>
     </Grid>
 </UserControl>

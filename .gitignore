@@ -3,5 +3,6 @@
 packages/*
 *.user
 
-/bin/*
-obj/*
+*/bin/*
+*/obj/*
+/TestResults/*
