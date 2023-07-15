@@ -22,5 +22,24 @@ namespace TestBetterScan
             Assert.AreEqual("\\test_resource\\bigboo\\run.exe", s1);
         }
 
+        [TestMethod]
+        public void TestToRelPath_basic()
+        {
+            string root = "x:/";
+            string s1 = "x:/a1/r.bat";
+            string symbol = "{f}";
+            string res1 = Helper.ToRelPath(s1, root, symbol);
+            Assert.AreEqual("{f}\\a1\\r.bat", res1);
+        }
+
+        [TestMethod]
+        public void TestToRelPath_dot()
+        {
+            string root = "x:/root/";
+            string s1 = "x:/a1/r.bat";
+            string symbol = "{f}";
+            string res1 = Helper.ToRelPath(s1, root, symbol);
+            Assert.AreEqual("{f}\\..\\a1\\r.bat", res1);
+        }
     }
 }
