@@ -41,5 +41,43 @@ namespace TestBetterScan
             string res1 = Helper.ToRelPath(s1, root, symbol);
             Assert.AreEqual("{f}\\..\\a1\\r.bat", res1);
         }
+
+        [TestMethod]
+        public void TestToRelPath_dot_noslash()
+        {
+            string root = "x:/root";
+            string s1 = "x:\\a1\\r.bat";
+            string symbol = "{f}";
+            string res1 = Helper.ToRelPath(s1, root, symbol);
+            Assert.AreEqual("{f}\\..\\a1\\r.bat", res1);
+        }
+
+        [TestMethod]
+        public void TestToRelPath_dot_backslash()
+        {
+            string root = "x:\\a/b\\c/d\\root";
+            string s1 = "x:/a\\b\\c/d\\a1\\r.bat";
+            string symbol = "{f}";
+            string res1 = Helper.ToRelPath(s1, root, symbol);
+            Assert.AreEqual("{f}\\..\\a1\\r.bat", res1);
+        }
+        [TestMethod]
+        public void TestToRelPath_more_dot()
+        {
+            string root = "x:\\a/b\\w/w\\root";
+            string s1 = "x:/a\\b\\c/d\\a1\\r.bat";
+            string symbol = "{f}";
+            string res1 = Helper.ToRelPath(s1, root, symbol);
+            Assert.AreEqual("{f}\\..\\..\\..\\c\\d\\a1\\r.bat", res1);
+        }
+        [TestMethod]
+        public void TestToRelPath_diff_drive()
+        {
+            string root = "u:\\root";
+            string s1 = "x:/d\\a1\\r.bat";
+            string symbol = "{f}";
+            string res1 = Helper.ToRelPath(s1, root, symbol);
+            Assert.AreEqual(s1, res1);
+        }
     }
 }
