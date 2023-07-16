@@ -25,7 +25,9 @@ namespace BetterScan
             }
             return false;
         }
-        public static List<FileInfo> Search(string path, IEnumerable<string> pattern)
+        public static List<FileInfo> Search(string path,
+            IEnumerable<string> excludedFolderList,
+            IEnumerable<string> pattern)
         {
             List<Regex> patternList = new List<Regex>();
             foreach (string s in pattern)
@@ -35,12 +37,21 @@ namespace BetterScan
                 patternList.Add(p);
             }
 
-            return Search(path, patternList);
+            return Search(path, excludedFolderList, patternList);
         }
-        private static List<FileInfo> Search(string path, IEnumerable<Regex> patternList)
+        private static List<FileInfo> Search(
+            string path,
+            IEnumerable<string> excludedFolderList,
+            IEnumerable<Regex> patternList)
         {
             List<FileInfo> res = new List<FileInfo>();
             DirectoryInfo di = new DirectoryInfo(path);
+
+            if (excludedFolderList.Contains(di.FullName))
+            {
+                return new List<FileInfo> { };
+            }
+
             foreach (FileInfo fi in di.EnumerateFiles())
             {
                 if (IsMatch(fi.FullName, patternList))
@@ -50,8 +61,11 @@ namespace BetterScan
             }
             foreach (var fi in di.EnumerateDirectories())
             {
-                var subRes = Search(fi.FullName, patternList);
-                res.AddRange(subRes);
+                if (!excludedFolderList.Contains(fi.FullName))
+                {
+                    var subRes = Search(fi.FullName, excludedFolderList, patternList);
+                    res.AddRange(subRes);
+                }
             }
             return res;
         }
@@ -94,6 +108,16 @@ namespace BetterScan
         public static string ConcatPath(string root, string fpname)
         {
             return root + Path.DirectorySeparatorChar + fpname;
+        }
+
+        public static string ResolveRelPath(string basePath, string relPath)
+        {
+            string fp = ConcatPath(basePath, relPath);
+            return Path.GetFullPath(fp);
+        }
+        public static string ResolveRelPath(string rawPath)
+        {
+            return Path.GetFullPath(rawPath);
         }
     }
 }

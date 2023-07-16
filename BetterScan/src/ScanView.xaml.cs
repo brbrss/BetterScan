@@ -51,13 +51,28 @@ namespace BetterScan
             Window.GetWindow(this).Title = "Scan Result of " + folder;
             //plugin.PlayniteApi.Dialogs.ShowMessage(folder);
         }
+
+        private IEnumerable<string> GetExcludedDir()
+        {
+            const string varname = "{PlayniteDir}";
+            string basePath = plugin.PlayniteApi.Paths.ApplicationPath;
+
+            IEnumerable<string> rawDirList
+                = from g in plugin.PlayniteApi.Database.Games
+                  where g.IsInstalled
+                  select g.InstallDirectory.Replace(varname, basePath);
+
+            return from fp in rawDirList
+                   select Helper.ResolveRelPath(fp);
+        }
         private void ClickScan(object sender, RoutedEventArgs e)
         {
             string path = model.TargetFolder;
             List<string> plist = new List<string> { "*.exe", "*.bat" };
+            var exFolder = GetExcludedDir();
             try
             {
-                List<System.IO.FileInfo> res = Helper.Search(path, plist);
+                List<FileInfo> res = Helper.Search(path, exFolder, plist);
                 var arr = new List<Candidate>();
                 foreach (var item in res)
                 {
