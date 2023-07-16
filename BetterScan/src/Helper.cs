@@ -10,12 +10,14 @@ namespace BetterScan
 {
     public class Helper
     {
-        private static String WildCardToRegular(String value)
+        public static String WildCardToRegular(String value)
         {
+            value = value.ToLower();
             return "^" + Regex.Escape(value).Replace("\\?", ".").Replace("\\*", ".*") + "$";
         }
-        private static bool IsMatch(string s, IEnumerable<Regex> plist)
+        public static bool IsMatch(string s, IEnumerable<Regex> plist)
         {
+            s = s.ToLower();
             foreach (var p in plist)
             {
                 if (p.IsMatch(s))
@@ -27,7 +29,10 @@ namespace BetterScan
         }
         public static List<FileInfo> Search(string path,
             IEnumerable<string> excludedFolderList,
-            IEnumerable<string> pattern)
+            IEnumerable<string> pattern,
+            IEnumerable<string> skipPattern
+
+            )
         {
             List<Regex> patternList = new List<Regex>();
             foreach (string s in pattern)
@@ -36,13 +41,21 @@ namespace BetterScan
                 Regex p = new Regex(ss);
                 patternList.Add(p);
             }
-
-            return Search(path, excludedFolderList, patternList);
+            List<Regex> skipList = new List<Regex>();
+            foreach (string s in skipPattern)
+            {
+                string ss = WildCardToRegular(s);
+                Regex p = new Regex(ss);
+                skipList.Add(p);
+            }
+            return Search(path, excludedFolderList, patternList, skipList);
         }
         private static List<FileInfo> Search(
             string path,
             IEnumerable<string> excludedFolderList,
-            IEnumerable<Regex> patternList)
+            IEnumerable<Regex> patternList,
+            IEnumerable<Regex> skipList
+            )
         {
             List<FileInfo> res = new List<FileInfo>();
             DirectoryInfo di = new DirectoryInfo(path);
@@ -55,7 +68,10 @@ namespace BetterScan
             {
                 try
                 {
-                    if (IsMatch(fi.FullName, patternList))
+                    if (IsMatch(fi.FullName, skipList))
+                    {
+                    }
+                    else if (IsMatch(fi.FullName, patternList))
                     {
                         res.Add(fi);
                     }
@@ -70,7 +86,8 @@ namespace BetterScan
                 {
                     if (!excludedFolderList.Contains(fi.FullName))
                     {
-                        var subRes = Search(fi.FullName, excludedFolderList, patternList);
+                        var subRes = Search(fi.FullName,
+                            excludedFolderList, patternList, skipList);
                         res.AddRange(subRes);
                     }
                 }

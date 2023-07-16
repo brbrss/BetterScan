@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace TestBetterScan
 {
@@ -11,12 +12,36 @@ namespace TestBetterScan
     public class HelperTest
     {
         [TestMethod]
+        public void TestRegex_1()
+        {
+            string s = "AB.*";
+            string x = "ab.bat";
+            string s2 = Helper.WildCardToRegular(s);
+            var p = new Regex(s2);
+            List<Regex> plist = new List<Regex> { p };
+            bool res = Helper.IsMatch(x, plist);
+            Assert.IsTrue(res);
+        }
+        [TestMethod]
+        public void TestRegex_2()
+        {
+            string s = "ab.*";
+            string x = "AB.bat";
+            string s2 = Helper.WildCardToRegular(s);
+            var p = new Regex(s2);
+            List<Regex> plist = new List<Regex> { p };
+            bool res = Helper.IsMatch(x, plist);
+            Assert.IsTrue(res);
+        }
+
+        [TestMethod]
         public void TestScan()
         {
             string path = "test_resource/";
             List<string> plist = new List<string> { "*" };
+            List<string> slist = new List<string> { };
             IEnumerable<string> exfolder = new List<String>();
-            var res = BetterScan.Helper.Search(path, exfolder, plist);
+            var res = BetterScan.Helper.Search(path, exfolder, plist, slist);
             string cwd = Directory.GetCurrentDirectory();
             Assert.AreEqual(res.Count, 2);
             string s1 = res[0].FullName.Replace(cwd, "");
@@ -28,9 +53,11 @@ namespace TestBetterScan
             string cwd = Directory.GetCurrentDirectory();
             string path = "test_resource/";
             List<string> plist = new List<string> { "*" };
+            List<string> slist = new List<string> { };
+
             IEnumerable<string> exfolder
                 = new List<String> { cwd + "\\test_resource\\real" };
-            var res = Helper.Search(path, exfolder, plist);
+            var res = Helper.Search(path, exfolder, plist, slist);
             Assert.AreEqual(1, res.Count);
         }
 

@@ -71,11 +71,14 @@ namespace BetterScan
             IEnumerable<string> plist
                 = from x in settings.Settings.MatchPattern.Split(',')
                   select x.Trim();
+            IEnumerable<string> slist
+                = from x in settings.Settings.SkipPattern.Split(',')
+                  select x.Trim();
             //List<string> plist = new List<string> { "*.exe", "*.bat" };
             var exFolder = GetExcludedDir();
             try
             {
-                List<FileInfo> res = Helper.Search(path, exFolder, plist);
+                List<FileInfo> res = Helper.Search(path, exFolder, plist, slist);
                 var arr = new List<Candidate>();
                 foreach (var item in res)
                 {
