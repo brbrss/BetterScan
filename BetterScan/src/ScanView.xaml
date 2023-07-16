@@ -9,6 +9,13 @@
 
     <UserControl.Resources>
         <local:EmptyPathConverter x:Key="EmptyPathConverter"/>
+
+
+        <DataTemplate x:Key="FirstCell">
+            <StackPanel Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding Path=Selected}"/>
+            </StackPanel>
+        </DataTemplate>
     </UserControl.Resources>
 
 
@@ -27,15 +34,19 @@
 
         <ListView ItemsSource="{Binding CandidateList}">
 
+
             <ListView.View>
 
                 <GridView AllowsColumnReorder="false" ColumnHeaderToolTip="Scan Result">
-
+                    <GridViewColumn CellTemplate="{StaticResource FirstCell}"     Width="30"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Selected}" Header="Selected" Width="100"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=FilePath}"  Header="File Path" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=FilePath}"  Header="File Path" Width="500"/>
                 </GridView>
 
             </ListView.View>
         </ListView>
+
+        <Button Content="Add"    Click="ClickAdd"/>
+
     </StackPanel>
 </UserControl>

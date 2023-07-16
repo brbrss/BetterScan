@@ -6,6 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using Playnite.SDK;
 using System.Windows.Data;
+using System.IO;
+using System.Collections.ObjectModel;
 
 namespace BetterScan
 {
@@ -74,6 +76,60 @@ namespace BetterScan
                 plugin.PlayniteApi.Dialogs.ShowErrorMessage(E.Message, " Error");
             }
 
+        }
+
+        static private string GetFolderPath(string fp)
+        {
+            return new FileInfo(fp).Directory.ToString();
+        }
+        static private string GetFolderName(string fp)
+        {
+            return new FileInfo(fp).Directory.Name;
+        }
+        private Game GenGame(string fp)
+        {
+            const string placeholder = "{PlayniteDir}";
+            string folder = GetFolderPath(fp);
+            string fpname = new FileInfo(fp).Name;
+            string root = plugin.PlayniteApi.Paths.ApplicationPath;
+
+            string installDir = Helper.ToRelPath(folder, root, placeholder);
+            Game g = new Game
+            {
+                Name = GetFolderName(fp),
+                InstallDirectory = installDir,
+                IsInstalled = true,
+            };
+            GameAction action = new GameAction
+            {
+                IsPlayAction = true,
+                Type = GameActionType.File,
+                Name = fpname,
+                Path = Helper.ConcatPath(installDir, fpname),
+                WorkingDir = installDir
+            };
+            g.GameActions = new ObservableCollection<GameAction> { action };
+
+            return g;
+        }
+
+        private void ClickAdd(object sender, RoutedEventArgs e)
+        {
+            List<Candidate> leftover = new List<Candidate>();
+            foreach (var item in model.CandidateList)
+            {
+                if (item.Selected)
+                {
+                    Game g = GenGame(item.FilePath);
+                    plugin.PlayniteApi.Database.Games.Add(g);
+                }
+                else
+                {
+                    leftover.Add(item);
+                }
+            }
+
+            model.CandidateList = leftover;
         }
 
         private string toRelFolder(string absFolder)

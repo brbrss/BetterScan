@@ -86,5 +86,14 @@ namespace BetterScan
             }
             return res;
         }
+
+        ///<summary>
+        /// fpname is file component of file path
+        ///  e.g. if fp is "C:\mythings\meow.png" then fpname is "meow.png"
+        ///</summary>
+        public static string ConcatPath(string root, string fpname)
+        {
+            return root + Path.DirectorySeparatorChar + fpname;
+        }
     }
 }
