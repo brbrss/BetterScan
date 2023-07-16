@@ -101,6 +101,26 @@ namespace BetterScan
         {
             return new FileInfo(fp).Directory.Name;
         }
+        static private string GetIcon(string fp)
+        {
+            try
+            {
+                var iconex = new TsudaKageyu.IconExtractor(fp);
+                if (iconex.Count > 0)
+                {
+                    string tempfp = Path.GetTempPath() + Guid.NewGuid().ToString() + ".png";
+                    var f = new FileStream(tempfp, FileMode.CreateNew);
+                    iconex.Save(0, f);
+                    return tempfp;
+                }
+                return "";
+            }
+            catch (IOException ex)
+            {
+                throw new IOException("Error in extracting icon", ex);
+            }
+        }
+
         private Game GenGame(string fp)
         {
             const string placeholder = "{PlayniteDir}";
@@ -109,11 +129,13 @@ namespace BetterScan
             string root = plugin.PlayniteApi.Paths.ApplicationPath;
 
             string installDir = Helper.ToRelPath(folder, root, placeholder);
+
             Game g = new Game
             {
                 Name = GetFolderName(fp),
                 InstallDirectory = installDir,
                 IsInstalled = true,
+                Icon = GetIcon(fp)
             };
             GameAction action = new GameAction
             {
