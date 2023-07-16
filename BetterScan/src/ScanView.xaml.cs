@@ -155,7 +155,7 @@ namespace BetterScan
                 Type = GameActionType.File,
                 Name = fpname,
                 Path = Helper.ConcatPath(installDir, fpname),
-                WorkingDir = installDir
+                WorkingDir = "{InstallDir}"
             };
             g.GameActions = new ObservableCollection<GameAction> { action };
 
