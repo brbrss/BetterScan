@@ -11,9 +11,9 @@ namespace BetterScan
     public class BetterScanSettings : ObservableObject
     {
         public string MatchPattern { get; set; } = "*.exe,*.bat";
-        public string SkipPattern { get; set; } = "";
-        public bool OptionUseFolder { get; set; }
-        public bool OptionRelPath { get; set; }
+        public string SkipPattern { get; set; } = "*\\playnite\\*";
+        public bool OptionUseFolder { get; set; } = true;
+        public bool OptionRelPath { get; set; } = true;
 
     }
 
