@@ -10,7 +10,8 @@
         <TextBox Text="{Binding Settings.MatchPattern}"/>
         <Label>SkipPattern (comma separated)</Label>
         <TextBox Text="{Binding Settings.SkipPattern}"/>
-        <CheckBox IsChecked="{Binding Settings.OptionUseFolder}" Content="Use folder name"/>
+        <CheckBox IsChecked="{Binding Settings.OptionUseFolder}" 
+                  Content="Set game name to folder name, use file name when unchecked"/>
         <CheckBox IsChecked="{Binding Settings.OptionRelPath}" Content="Use relative install path"/>
     </StackPanel>
 </UserControl>

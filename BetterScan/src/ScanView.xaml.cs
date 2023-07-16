@@ -119,11 +119,11 @@ namespace BetterScan
                     iconex.Save(0, f);
                     return tempfp;
                 }
-                return "";
+                return null;
             }
-            catch (IOException ex)
+            catch (Exception)
             {
-                throw new IOException("Error in extracting icon", ex);
+                return null;
             }
         }
 
@@ -134,11 +134,17 @@ namespace BetterScan
             string fpname = new FileInfo(fp).Name;
             string root = plugin.PlayniteApi.Paths.ApplicationPath;
 
-            string installDir = Helper.ToRelPath(folder, root, placeholder);
-
+            string installDir =
+                settings.Settings.OptionRelPath ?
+                folder :
+                Helper.ToRelPath(folder, root, placeholder);
+            string name =
+                settings.Settings.OptionUseFolder ?
+                 GetFolderName(fp) :
+                 Path.GetFileNameWithoutExtension(fp);
             Game g = new Game
             {
-                Name = GetFolderName(fp),
+                Name = name,
                 InstallDirectory = installDir,
                 IsInstalled = true,
                 Icon = GetIcon(fp)
