@@ -132,12 +132,7 @@ namespace BetterScan
             model.CandidateList = leftover;
         }
 
-        private string toRelFolder(string absFolder)
-        {
-            string s = plugin.PlayniteApi.Paths.ApplicationPath;
-            plugin.PlayniteApi.Dialogs.ShowMessage(s + '\n' + absFolder);
-            return absFolder;
-        }
+
     }
 
 

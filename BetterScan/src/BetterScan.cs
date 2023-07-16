@@ -71,15 +71,6 @@ namespace BetterScan
                 PlayniteApi.Dialogs.ShowErrorMessage(E.Message, "Error during DoImportGames");
             }
         }
-        private void Foo(MainMenuItemActionArgs args)
-        {
-            Game newGame = new Game("New Game")
-            {
-                InstallDirectory = "{PlayniteDir}/../"
-            };
-
-            //PlayniteApi.Database.Games.Add(newGame);
-        }
 
         public override void OnGameInstalled(OnGameInstalledEventArgs args)
         {
