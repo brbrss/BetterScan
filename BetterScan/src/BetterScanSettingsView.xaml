@@ -6,8 +6,11 @@
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="600">
     <StackPanel>
-        <TextBox Text="{Binding Settings.Option1}"/>
-        <CheckBox IsChecked="{Binding Settings.Option2}" Content="Use folder name"/>
+        <Label>Match Pattern (comma separated)</Label>
+        <TextBox Text="{Binding Settings.MatchPattern}"/>
+        <Label>SkipPattern (comma separated)</Label>
+        <TextBox Text="{Binding Settings.SkipPattern}"/>
+        <CheckBox IsChecked="{Binding Settings.OptionUseFolder}" Content="Use folder name"/>
         <CheckBox IsChecked="{Binding Settings.OptionRelPath}" Content="Use relative install path"/>
     </StackPanel>
 </UserControl>

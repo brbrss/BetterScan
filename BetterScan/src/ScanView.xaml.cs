@@ -68,7 +68,10 @@ namespace BetterScan
         private void ClickScan(object sender, RoutedEventArgs e)
         {
             string path = model.TargetFolder;
-            List<string> plist = new List<string> { "*.exe", "*.bat" };
+            IEnumerable<string> plist
+                = from x in settings.Settings.MatchPattern.Split(',')
+                  select x.Trim();
+            //List<string> plist = new List<string> { "*.exe", "*.bat" };
             var exFolder = GetExcludedDir();
             try
             {

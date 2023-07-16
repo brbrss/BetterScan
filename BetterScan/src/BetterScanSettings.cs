@@ -10,17 +10,10 @@ namespace BetterScan
 {
     public class BetterScanSettings : ObservableObject
     {
-        private string option1 = string.Empty;
-        private bool option2 = false;
-        private bool optionRelPath = true;
-
-        public string Option1 { get => option1; set => SetValue(ref option1, value); }
-        public bool Option2 { get => option2; set => SetValue(ref option2, value); }
-        public bool OptionRelPath
-        {
-            get => optionRelPath;
-            set => SetValue(ref optionRelPath, value);
-        }
+        public string MatchPattern { get; set; } = "*.exe,*.bat";
+        public string SkipPattern { get; set; }
+        public bool OptionUseFolder { get; set; }
+        public bool OptionRelPath { get; set; }
 
     }
 
