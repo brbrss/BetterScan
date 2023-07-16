@@ -51,20 +51,31 @@ namespace BetterScan
             {
                 return new List<FileInfo> { };
             }
-
             foreach (FileInfo fi in di.EnumerateFiles())
             {
-                if (IsMatch(fi.FullName, patternList))
+                try
                 {
-                    res.Add(fi);
+                    if (IsMatch(fi.FullName, patternList))
+                    {
+                        res.Add(fi);
+                    }
+                }
+                catch (Exception)
+                {
                 }
             }
             foreach (var fi in di.EnumerateDirectories())
             {
-                if (!excludedFolderList.Contains(fi.FullName))
+                try
                 {
-                    var subRes = Search(fi.FullName, excludedFolderList, patternList);
-                    res.AddRange(subRes);
+                    if (!excludedFolderList.Contains(fi.FullName))
+                    {
+                        var subRes = Search(fi.FullName, excludedFolderList, patternList);
+                        res.AddRange(subRes);
+                    }
+                }
+                catch (Exception)
+                {
                 }
             }
             return res;
