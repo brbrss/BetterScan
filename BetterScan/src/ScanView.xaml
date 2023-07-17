@@ -22,17 +22,10 @@
     <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" >
 
 
-        <Button Content="Select Folder"  
-                Click="ClickSelectFolder"/>
-        <Label Content="Folder Path:"  />
-        <Label 
-            Content="{Binding TargetFolder,
-            Converter={StaticResource EmptyPathConverter}}" 
-                />
-        <Button Content="Scan"    Click="ClickScan"/>
 
 
-        <ListView ItemsSource="{Binding CandidateList}" Height="200">
+        <ListView ItemsSource="{Binding CandidateList}" 
+                  Height="250"  Margin="5" VerticalContentAlignment="Stretch">
 
 
             <ListView.View>
@@ -45,8 +38,29 @@
 
             </ListView.View>
         </ListView>
+        <DockPanel LastChildFill="True" >
+            <Label Content="Folder Path:"  Margin="5"/>
+            <Label  Margin="5"
+            Content="{Binding TargetFolder,
+            Converter={StaticResource EmptyPathConverter}}" 
+            HorizontalAlignment="Stretch"
+                />
+        </DockPanel>
+        <DockPanel KeyboardNavigation.TabNavigation="Local"
+                   LastChildFill="False" 
+                   Grid.Column="0" Grid.Row="1" 
+                   >
 
-        <Button Content="Add"    Click="ClickAdd"/>
+            <Button Content="Select Folder"  
+                Click="ClickSelectFolder" Margin="5"
+               DockPanel.Dock="Left" TabIndex="1" />
+
+            <Button Content="Scan"    Click="ClickScan"  Margin="5"
+                    DockPanel.Dock="Left" TabIndex="1"/>
+
+            <Button Content="Add Selected"    Click="ClickAdd"  Margin="5"
+                    DockPanel.Dock="Left" TabIndex="2"/>
+        </DockPanel>
 
     </StackPanel>
 </UserControl>
