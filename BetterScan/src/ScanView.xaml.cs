@@ -136,8 +136,8 @@ namespace BetterScan
 
             string installDir =
                 settings.Settings.OptionRelPath ?
-                folder :
-                Helper.ToRelPath(folder, root, placeholder);
+                Helper.ToRelPath(folder, root, placeholder)
+                : folder;
             string name =
                 settings.Settings.OptionUseFolder ?
                  GetFolderName(fp) :
@@ -154,7 +154,7 @@ namespace BetterScan
                 IsPlayAction = true,
                 Type = GameActionType.File,
                 Name = fpname,
-                Path = Helper.ConcatPath(installDir, fpname),
+                Path = "{InstallDir}\\" + fpname,
                 WorkingDir = "{InstallDir}"
             };
             g.GameActions = new ObservableCollection<GameAction> { action };
