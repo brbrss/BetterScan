@@ -1,0 +1,10 @@
+﻿AddonId: BetterScan
+Packages:
+  - Version: 1.00
+    RequiredApiVersion: 6.1.0
+    ReleaseDate: 2023-07-17
+    PackageUrl: https://github.com/brbrss/BetterScan/releases/download/v1.00/BetterScan_cfa84ecf-cb29-4aa2-bbac-c9aa5003cc22_1_0.pext
+    Changelog:
+        - wildcard pattern for match and skip
+        - option to use relative path to installation dir
+        - option to use folder or file as default game name
