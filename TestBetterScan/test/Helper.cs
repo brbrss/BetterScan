@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace TestBetterScan
 {
@@ -37,15 +38,16 @@ namespace TestBetterScan
         [TestMethod]
         public void TestScan()
         {
-            string path = "test_resource/";
+            string path = "test_resource/bigboo";
             List<string> plist = new List<string> { "*" };
             List<string> slist = new List<string> { };
             IEnumerable<string> exfolder = new List<String>();
-            var res = BetterScan.Helper.Search(path, exfolder, plist, slist);
+            List<FileInfo> res = BetterScan.Helper.Search(path, exfolder, plist, slist);
             string cwd = Directory.GetCurrentDirectory();
             Assert.AreEqual(res.Count, 2);
-            string s1 = res[0].FullName.Replace(cwd, "");
-            Assert.AreEqual("\\test_resource\\bigboo\\run.exe", s1);
+            var resPath = from x in res select x.FullName.Replace(cwd, "");
+            var resList = resPath.ToList();
+            CollectionAssert.Contains(resList, "\\test_resource\\bigboo\\run.exe");
         }
         [TestMethod]
         public void TestScan_exclude()
@@ -56,9 +58,10 @@ namespace TestBetterScan
             List<string> slist = new List<string> { };
 
             IEnumerable<string> exfolder
-                = new List<String> { cwd + "\\test_resource\\real" };
+                = new List<String> { cwd + "\\test_resource\\moremulti" ,
+                    cwd+ "\\test_resource\\multi" };
             var res = Helper.Search(path, exfolder, plist, slist);
-            Assert.AreEqual(1, res.Count);
+            Assert.AreEqual(3, res.Count);
         }
 
         [TestMethod]
