@@ -70,6 +70,7 @@
     <None Include="extension.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="manifest.yaml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
