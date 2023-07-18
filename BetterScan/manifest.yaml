@@ -7,4 +7,4 @@ Packages:
     Changelog:
         - wildcard pattern for match and skip
         - option to use relative path to installation dir
-        - option to use folder or file as default game name
+        - option to use folder or file as default name
