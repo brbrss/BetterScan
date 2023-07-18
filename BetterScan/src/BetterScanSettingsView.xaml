@@ -8,7 +8,7 @@
     <StackPanel>
         <Label>Match Pattern (comma separated)</Label>
         <TextBox Text="{Binding Settings.MatchPattern}"/>
-        <Label>SkipPattern (comma separated)</Label>
+        <Label>Skip Pattern (comma separated)</Label>
         <TextBox Text="{Binding Settings.SkipPattern}"/>
         <CheckBox IsChecked="{Binding Settings.OptionUseFolder}" 
                   Content="Set game name to folder name, use file name when unchecked"/>
