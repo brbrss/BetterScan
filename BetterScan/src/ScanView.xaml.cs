@@ -8,6 +8,7 @@ using Playnite.SDK;
 using System.Windows.Data;
 using System.IO;
 using System.Collections.ObjectModel;
+using System.Windows.Media.Imaging;
 
 namespace BetterScan
 {
@@ -85,7 +86,8 @@ namespace BetterScan
                     Candidate c = new Candidate
                     {
                         Selected = false,
-                        FilePath = item.FullName
+                        EntryFilePath = item.FullName,
+                        IconData = GetIconData(item.FullName)///
                     };
                     arr.Add(c);
                 }
@@ -126,6 +128,24 @@ namespace BetterScan
                 return null;
             }
         }
+
+        static private System.Windows.Media.ImageSource GetIconData(string fp)
+        {
+            try
+            {
+                TsudaKageyu.IconExtractor iconex = new TsudaKageyu.IconExtractor(fp);
+                System.Drawing.Icon icon = iconex.Count > 0 ? iconex.GetIcon(0) : null;
+                return System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
+                 icon.Handle,
+                 new Int32Rect(0, 0, icon.Width, icon.Height),
+                 BitmapSizeOptions.FromEmptyOptions());
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
 
         private Game GenGame(string fp)
         {
@@ -169,7 +189,7 @@ namespace BetterScan
             {
                 if (item.Selected)
                 {
-                    Game g = GenGame(item.FilePath);
+                    Game g = GenGame(item.EntryFilePath);
                     plugin.PlayniteApi.Database.Games.Add(g);
                 }
                 else

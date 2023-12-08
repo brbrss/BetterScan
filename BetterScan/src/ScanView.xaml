@@ -33,7 +33,15 @@
                 <GridView AllowsColumnReorder="false" ColumnHeaderToolTip="Scan Result">
                     <GridViewColumn CellTemplate="{StaticResource FirstCell}"     Width="30"/>
                     <!--<GridViewColumn DisplayMemberBinding="{Binding Path=Selected}" Header="Selected" Width="30"/>-->
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=FilePath}"  Header="File Path" Width="700"/>
+                    <GridViewColumn Header="Icon">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding Path=IconData}"  Width="18"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=EntryFilePath}"  Header="File Path" Width="700"/>
                 </GridView>
 
             </ListView.View>

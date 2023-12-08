@@ -8,8 +8,9 @@ namespace BetterScan
 
     public class Candidate
     {
-        public string FilePath { get; set; }
+        public string EntryFilePath { get; set; }
         public bool Selected { get; set; }
+        public System.Windows.Media.ImageSource IconData { get; set; }
     }
 
     public class ScanViewModel : ObservableObject
