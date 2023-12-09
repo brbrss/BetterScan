@@ -14,6 +14,7 @@ namespace BetterScan
         public string SkipPattern { get; set; } = "*\\playnite\\*";
         public bool OptionUseFolder { get; set; } = true;
         public bool OptionRelPath { get; set; } = true;
+        public bool OptionSearchAdjacentIco { get; set; } = true;
 
     }
 

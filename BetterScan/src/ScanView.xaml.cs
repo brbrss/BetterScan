@@ -122,7 +122,7 @@ namespace BetterScan
             }
             return null;
         }
-        private static string GetIconTempPath(string fp)
+        private string GetIconTempPath(string fp)
         {
             string res = null;
             try
@@ -141,7 +141,7 @@ namespace BetterScan
             {
 
             }
-            if (res == null)
+            if (res == null && settings.Settings.OptionSearchAdjacentIco)
             {
                 string iconPath = SearchIcoFile(fp);
                 string tempfp = Path.GetTempPath() + Guid.NewGuid().ToString() + ".png";

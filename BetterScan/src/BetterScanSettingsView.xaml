@@ -13,5 +13,7 @@
         <CheckBox IsChecked="{Binding Settings.OptionUseFolder}" 
                   Content="Set game name to folder name, use file name when unchecked"/>
         <CheckBox IsChecked="{Binding Settings.OptionRelPath}" Content="Use relative install path"/>
+        <CheckBox IsChecked="{Binding Settings.OptionSearchAdjacentIco}" 
+                  Content="Use .ico file in folder if target does not contain icon"/>
     </StackPanel>
 </UserControl>
