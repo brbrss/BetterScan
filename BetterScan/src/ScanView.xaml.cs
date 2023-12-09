@@ -109,8 +109,22 @@ namespace BetterScan
         {
             return new FileInfo(fp).Directory.Name;
         }
-        static private string GetIcon(string fp)
+        private static string SearchIcoFile(string fp)
         {
+            string folderName = Path.GetDirectoryName(fp);
+            DirectoryInfo di = new DirectoryInfo(folderName);
+            foreach (FileInfo fi in di.EnumerateFiles())
+            {
+                if (fi.Extension.ToLower() == ".ico")
+                {
+                    return fi.FullName;
+                }
+            }
+            return null;
+        }
+        private static string GetIconTempPath(string fp)
+        {
+            string res = null;
             try
             {
                 var iconex = new TsudaKageyu.IconExtractor(fp);
@@ -119,14 +133,22 @@ namespace BetterScan
                     string tempfp = Path.GetTempPath() + Guid.NewGuid().ToString() + ".png";
                     var f = new FileStream(tempfp, FileMode.CreateNew);
                     iconex.Save(0, f);
-                    return tempfp;
+                    res = tempfp;
                 }
-                return null;
+
             }
             catch (Exception)
             {
-                return null;
+
             }
+            if (res == null)
+            {
+                string iconPath = SearchIcoFile(fp);
+                string tempfp = Path.GetTempPath() + Guid.NewGuid().ToString() + ".png";
+                File.Copy(iconPath, tempfp);
+                res = tempfp;
+            }
+            return res;
         }
 
         static private System.Windows.Media.ImageSource GetIconData(string fp)
@@ -147,11 +169,11 @@ namespace BetterScan
         }
 
 
-        private Game GenGame(string fp)
+        private Game GenGame(Candidate candi)
         {
             const string placeholder = "{PlayniteDir}";
-            string folder = GetFolderPath(fp);
-            string fpname = new FileInfo(fp).Name;
+            string folder = GetFolderPath(candi.EntryFilePath);
+            string fpname = new FileInfo(candi.EntryFilePath).Name;
             string root = plugin.PlayniteApi.Paths.ApplicationPath;
 
             string installDir =
@@ -160,14 +182,14 @@ namespace BetterScan
                 : folder;
             string name =
                 settings.Settings.OptionUseFolder ?
-                 GetFolderName(fp) :
-                 Path.GetFileNameWithoutExtension(fp);
+                 GetFolderName(candi.EntryFilePath) :
+                 Path.GetFileNameWithoutExtension(candi.EntryFilePath);
             Game g = new Game
             {
                 Name = name,
                 InstallDirectory = installDir,
                 IsInstalled = true,
-                Icon = GetIcon(fp)
+                Icon = GetIconTempPath(candi.EntryFilePath)
             };
             GameAction action = new GameAction
             {
@@ -185,11 +207,11 @@ namespace BetterScan
         private void ClickAdd(object sender, RoutedEventArgs e)
         {
             List<Candidate> leftover = new List<Candidate>();
-            foreach (var item in model.CandidateList)
+            foreach (Candidate item in model.CandidateList)
             {
                 if (item.Selected)
                 {
-                    Game g = GenGame(item.EntryFilePath);
+                    Game g = GenGame(item);
                     plugin.PlayniteApi.Database.Games.Add(g);
                 }
                 else
