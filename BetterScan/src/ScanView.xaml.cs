@@ -144,6 +144,9 @@ namespace BetterScan
             if (res == null && settings.Settings.OptionSearchAdjacentIco)
             {
                 string iconPath = SearchIcoFile(fp);
+                if (iconPath == null) {
+                    return res;
+                }
                 string tempfp = Path.GetTempPath() + Guid.NewGuid().ToString() + ".png";
                 File.Copy(iconPath, tempfp);
                 res = tempfp;
