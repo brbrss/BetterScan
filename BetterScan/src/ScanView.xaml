@@ -19,13 +19,44 @@
     </UserControl.Resources>
 
 
-    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" >
+    <DockPanel   VerticalAlignment="Top" HorizontalAlignment="Stretch" >
 
 
 
+        <DockPanel
+            DockPanel.Dock="Bottom"
+            KeyboardNavigation.TabNavigation="Local"
+                   LastChildFill="False" 
+                   Grid.Column="0" Grid.Row="1" 
+                   >
+
+            <Button Content="Select Folder"  
+                Click="ClickSelectFolder" Margin="5"
+               DockPanel.Dock="Left" TabIndex="1" />
+
+            <Button Content="Scan"    Click="ClickScan"  Margin="5"
+                    DockPanel.Dock="Left" TabIndex="1"/>
+
+            <Button Content="Add Selected"    Click="ClickAdd"  Margin="5"
+                    DockPanel.Dock="Left" TabIndex="2"/>
+        </DockPanel>
+        
+        <DockPanel Dock="Bottom" LastChildFill="True" >
+            <Label Content="Folder Path:"  Margin="5"/>
+            <Label  Margin="5"
+            Content="{Binding TargetFolder,
+            Converter={StaticResource EmptyPathConverter}}" 
+            HorizontalAlignment="Stretch"
+                />
+        </DockPanel>
+
+        <DockPanel Dock="Top" VerticalAlignment="Stretch"
+                   HorizontalAlignment="Stretch">
+            
 
         <ListView ItemsSource="{Binding CandidateList}" 
-                  Height="250"  Margin="5" VerticalContentAlignment="Stretch">
+                MinHeight="250"  Height="auto"  Margin="5" VerticalContentAlignment="Stretch"
+                   HorizontalAlignment="Stretch">
 
 
             <ListView.View>
@@ -41,34 +72,16 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=EntryFilePath}"  Header="File Path" Width="700"/>
+                    <GridViewColumn 
+                        DisplayMemberBinding="{Binding Path=EntryFilePath}" 
+                        Header="File Path"
+                        Width="auto" />
                 </GridView>
 
             </ListView.View>
         </ListView>
-        <DockPanel LastChildFill="True" >
-            <Label Content="Folder Path:"  Margin="5"/>
-            <Label  Margin="5"
-            Content="{Binding TargetFolder,
-            Converter={StaticResource EmptyPathConverter}}" 
-            HorizontalAlignment="Stretch"
-                />
-        </DockPanel>
-        <DockPanel KeyboardNavigation.TabNavigation="Local"
-                   LastChildFill="False" 
-                   Grid.Column="0" Grid.Row="1" 
-                   >
-
-            <Button Content="Select Folder"  
-                Click="ClickSelectFolder" Margin="5"
-               DockPanel.Dock="Left" TabIndex="1" />
-
-            <Button Content="Scan"    Click="ClickScan"  Margin="5"
-                    DockPanel.Dock="Left" TabIndex="1"/>
-
-            <Button Content="Add Selected"    Click="ClickAdd"  Margin="5"
-                    DockPanel.Dock="Left" TabIndex="2"/>
+        
         </DockPanel>
 
-    </StackPanel>
+    </DockPanel>
 </UserControl>
