@@ -58,6 +58,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Helper.cs" />
+    <Compile Include="src\Impl.cs" />
     <Compile Include="src\other\IconExtractor.cs" />
     <Compile Include="src\other\IconUtil.cs" />
     <Compile Include="src\other\NativeMethods.cs" />

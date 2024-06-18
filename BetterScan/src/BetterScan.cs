@@ -38,8 +38,14 @@ namespace BetterScan
             yield return new MainMenuItem
             {
                 MenuSection = "@Better Scan",
-                Description = "Scan folder...",
+                Description = "Scan Folder...",
                 Action = CreateView
+            };
+            yield return new MainMenuItem
+            {
+                MenuSection = "@Better Scan",
+                Description = "Verify Game Path...",
+                Action = CreateViewVerifyPath
             };
         }
 
@@ -69,6 +75,19 @@ namespace BetterScan
             {
                 logger.Error(E, "Error during initializing GameImportView");
                 PlayniteApi.Dialogs.ShowErrorMessage(E.Message, "Error during DoImportGames");
+            }
+        }
+
+        private void CreateViewVerifyPath(MainMenuItemActionArgs args)
+        {
+            try
+            {
+                Impl.VerifyPath(PlayniteApi);
+            }
+            catch (Exception E)
+            {
+                logger.Error(E, "Error during initializing VerifyPathView");
+                PlayniteApi.Dialogs.ShowErrorMessage(E.Message, "Error during VerifyPathView");
             }
         }
 
