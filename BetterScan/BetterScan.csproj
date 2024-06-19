@@ -62,10 +62,6 @@
     <Compile Include="src\other\IconExtractor.cs" />
     <Compile Include="src\other\IconUtil.cs" />
     <Compile Include="src\other\NativeMethods.cs" />
-    <Compile Include="src\VerifyView.xaml.cs">
-      <DependentUpon>VerifyView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="src\VerifyViewModel.cs" />
     <Compile Include="src\ScanView.xaml.cs">
       <DependentUpon>ScanView.xaml</DependentUpon>
     </Compile>
@@ -95,10 +91,6 @@
     <Page Include="src\ScanView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="src\VerifyView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -44,7 +44,7 @@ namespace BetterScan
             yield return new MainMenuItem
             {
                 MenuSection = "@Better Scan",
-                Description = "Verify Game Path...",
+                Description = "Verify Game Path",
                 Action = CreateViewVerifyPath
             };
         }
@@ -53,7 +53,7 @@ namespace BetterScan
         {
             try
             {
-                ScanView view = new ScanView(this,Settings);
+                ScanView view = new ScanView(this, Settings);
                 var window = PlayniteApi.Dialogs.CreateWindow(new WindowCreationOptions
                 {
                     ShowMinimizeButton = false,
@@ -82,28 +82,18 @@ namespace BetterScan
         {
             try
             {
-                VerifyView view = new VerifyView(this, Settings);
-                var window = PlayniteApi.Dialogs.CreateWindow(new WindowCreationOptions
-                {
-                    ShowMinimizeButton = false,
-                });
+                var res = Impl.VerifyPath(this.PlayniteApi);
 
-                window.Height = 350;
-                window.Width = 650;
-                window.Title = "Verify Path";
-
-                window.Content = view;
-
-                window.Owner = PlayniteApi.Dialogs.GetCurrentAppWindow();
-                window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-                // Use Show or ShowDialog to show the window
-                window.ShowDialog();
+                string msg = "Found " + res.ndir + "games with invalid install dir. "
+                    + res.nrom + " games with invalid ROM path. "
+                    + res.nact + " games with invalid action path. "
+                    ;
+                PlayniteApi.Dialogs.ShowMessage(msg);
             }
             catch (Exception E)
             {
-                logger.Error(E, "Error during initializing VerifyPathView");
-                PlayniteApi.Dialogs.ShowErrorMessage(E.Message, "Error during VerifyPathView");
+                logger.Error(E, "Error verifying path");
+                PlayniteApi.Dialogs.ShowErrorMessage(E.Message, "Error verifying path");
             }
         }
 
