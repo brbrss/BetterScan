@@ -82,7 +82,23 @@ namespace BetterScan
         {
             try
             {
-                Impl.VerifyPath(PlayniteApi);
+                VerifyView view = new VerifyView(this, Settings);
+                var window = PlayniteApi.Dialogs.CreateWindow(new WindowCreationOptions
+                {
+                    ShowMinimizeButton = false,
+                });
+
+                window.Height = 350;
+                window.Width = 650;
+                window.Title = "Verify Path";
+
+                window.Content = view;
+
+                window.Owner = PlayniteApi.Dialogs.GetCurrentAppWindow();
+                window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+                // Use Show or ShowDialog to show the window
+                window.ShowDialog();
             }
             catch (Exception E)
             {
