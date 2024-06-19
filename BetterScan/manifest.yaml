@@ -1,5 +1,11 @@
 ﻿AddonId: BetterScan_cfa84ecf-cb29-4aa2-bbac-c9aa5003cc22
 Packages:
+  - Version: 1.0.3
+    RequiredApiVersion: 6.1.0
+    ReleaseDate: 2023-12-30
+    PackageUrl: https://github.com/brbrss/BetterScan/releases/download/v1.0.2/BetterScan_cfa84ecf-cb29-4aa2-bbac-c9aa5003cc22_1_0_3.pext
+    Changelog:
+        - New feature of detecting invalid path in games
   - Version: 1.0.2
     RequiredApiVersion: 6.1.0
     ReleaseDate: 2023-12-30
