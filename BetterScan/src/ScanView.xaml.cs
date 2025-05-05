@@ -60,7 +60,7 @@ namespace BetterScan
 
             IEnumerable<string> rawDirList
                 = from g in plugin.PlayniteApi.Database.Games
-                  where g.IsInstalled
+                  where !string.IsNullOrEmpty(g.InstallDirectory)
                   select g.InstallDirectory.Replace(varname, basePath);
 
             return from fp in rawDirList
