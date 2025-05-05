@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BetterScan
 {
-    public class Helper
+    public static class Helper
     {
         public static String WildCardToRegular(String value)
         {
@@ -31,7 +31,6 @@ namespace BetterScan
             IEnumerable<string> excludedFolderList,
             IEnumerable<string> pattern,
             IEnumerable<string> skipPattern
-
             )
         {
             List<Regex> patternList = new List<Regex>();

@@ -15,7 +15,6 @@ namespace BetterScan
         public bool OptionUseFolder { get; set; } = true;
         public bool OptionRelPath { get; set; } = true;
         public bool OptionSearchAdjacentIco { get; set; } = true;
-
     }
 
     public class BetterScanSettingsViewModel : ObservableObject, ISettings

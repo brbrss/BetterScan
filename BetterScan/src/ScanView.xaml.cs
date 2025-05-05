@@ -60,34 +60,35 @@ namespace BetterScan
 
             IEnumerable<string> rawDirList
                 = from g in plugin.PlayniteApi.Database.Games
-                  where g.IsInstalled
+                  where !string.IsNullOrEmpty(g.InstallDirectory)
                   select g.InstallDirectory.Replace(varname, basePath);
 
             return from fp in rawDirList
                    select Helper.ResolveRelPath(fp);
         }
+
         private void ClickScan(object sender, RoutedEventArgs e)
         {
-            string path = model.TargetFolder;
-            IEnumerable<string> plist
+            string path = model.TargetFolder.Replace(@"\", @"\\");
+            IEnumerable<string> matchPattern
                 = from x in settings.Settings.MatchPattern.Split(',')
                   select x.Trim();
-            IEnumerable<string> slist
+            IEnumerable<string> skipPattern
                 = from x in settings.Settings.SkipPattern.Split(',')
                   select x.Trim();
-            //List<string> plist = new List<string> { "*.exe", "*.bat" };
+
             var exFolder = GetExcludedDir();
             try
             {
-                List<FileInfo> res = Helper.Search(path, exFolder, plist, slist);
+                List<FileInfo> res = Helper.Search(path, exFolder, matchPattern, skipPattern);
                 var arr = new List<Candidate>();
                 foreach (var item in res)
                 {
                     Candidate c = new Candidate
                     {
-                        Selected = false,
+                        Selected = true,
                         EntryFilePath = item.FullName,
-                        IconData = GetIconData(item.FullName)///
+                        IconData = GetIconData(item.FullName)
                     };
                     arr.Add(c);
                 }

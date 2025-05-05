@@ -1,11 +1,7 @@
-﻿
-using System;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
 
 namespace BetterScan
 {
-
     public class Candidate
     {
         public string EntryFilePath { get; set; }
