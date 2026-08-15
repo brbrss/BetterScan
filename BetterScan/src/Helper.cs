@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
+using System.Windows;
 
 namespace BetterScan
 {
@@ -160,6 +162,65 @@ namespace BetterScan
                 }
             }
             return null;
+        }
+
+        public static System.Windows.Media.ImageSource GetIconData(string fp)
+        {
+            try
+            {
+                TsudaKageyu.IconExtractor iconex = new TsudaKageyu.IconExtractor(fp);
+                System.Drawing.Icon icon = iconex.Count > 0 ? iconex.GetIcon(0) : null;
+                return System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
+                 icon.Handle,
+                 new Int32Rect(0, 0, icon.Width, icon.Height),
+                 BitmapSizeOptions.FromEmptyOptions());
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public static string GetIconTempPath(string fp, BetterScanSettings settings)
+        {
+            string res = null;
+            try
+            {
+                var iconex = new TsudaKageyu.IconExtractor(fp);
+                if (iconex.Count > 0)
+                {
+                    string tempfp = Path.GetTempPath() + Guid.NewGuid().ToString() + ".png";
+                    var f = new FileStream(tempfp, FileMode.CreateNew);
+                    iconex.Save(0, f);
+                    res = tempfp;
+                }
+
+            }
+            catch (Exception)
+            {
+
+            }
+            if (res == null && settings.OptionSearchAdjacentIco)
+            {
+                string iconPath = Helper.SearchIconFile(fp);
+                if (iconPath == null)
+                {
+                    return res;
+                }
+                string tempfp = Path.GetTempPath() + Guid.NewGuid().ToString() + ".png";
+                File.Copy(iconPath, tempfp);
+                res = tempfp;
+            }
+            return res;
+        }
+
+        static public string GetFolderPath(string fp)
+        {
+            return new FileInfo(fp).Directory.ToString();
+        }
+        static public string GetFolderName(string fp)
+        {
+            return new FileInfo(fp).Directory.Name;
         }
     }
 }

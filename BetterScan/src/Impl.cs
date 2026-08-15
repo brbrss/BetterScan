@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Playnite.SDK;
 using Playnite.SDK.Models;
 
+using System.Collections.ObjectModel;
+
 
 namespace BetterScan
 {
@@ -31,14 +33,15 @@ namespace BetterScan
             {
                 game.TagIds = new List<Guid>();
             }
-            if (!game.TagIds.Contains(tid)) {
+            if (!game.TagIds.Contains(tid))
+            {
                 game.TagIds.Add(tid);
             }
             api.Database.Games.Update(game);
         }
 
         private static void removeTag(IPlayniteAPI api, Game game, Guid tid)
-        {   
+        {
             if (game.TagIds is null)
             {
                 return;
@@ -134,6 +137,56 @@ namespace BetterScan
             res.nact = nact;
             return res;
             //api.Dialogs.ShowMessage("text", "caption");
+        }
+
+        public static Game GenGame(Candidate candi, IPlayniteAPI api, BetterScanSettings settings)
+        {
+            const string placeholder = "{PlayniteDir}";
+            string folder = Helper.GetFolderPath(candi.EntryFilePath);
+            string fpname = new FileInfo(candi.EntryFilePath).Name;
+            string root = api.Paths.ApplicationPath;
+
+            string installDir =
+                settings.OptionRelPath ?
+                Helper.ToRelPath(folder, root, placeholder)
+                : folder;
+            string name =
+                settings.OptionUseFolder ?
+                 Helper.GetFolderName(candi.EntryFilePath) :
+                 Path.GetFileNameWithoutExtension(candi.EntryFilePath);
+            Game g = new Game
+            {
+                Name = name,
+                InstallDirectory = installDir,
+                IsInstalled = true,
+                Icon = Helper.GetIconTempPath(candi.EntryFilePath, settings)
+            };
+            GameAction action = new GameAction
+            {
+                IsPlayAction = true,
+                Type = GameActionType.File,
+                Name = fpname,
+                Path = "{InstallDir}\\" + fpname,
+                WorkingDir = "{InstallDir}"
+            };
+            g.GameActions = new ObservableCollection<GameAction> { action };
+
+            return g;
+        }
+
+
+        public static IEnumerable<string> GetExcludedDir(IPlayniteAPI api)
+        {
+            const string varname = "{PlayniteDir}";
+            string basePath = api.Paths.ApplicationPath;
+
+            IEnumerable<string> rawDirList
+                = from g in api.Database.Games
+                  where !string.IsNullOrEmpty(g.InstallDirectory)
+                  select g.InstallDirectory.Replace(varname, basePath);
+
+            return from fp in rawDirList
+                   select Helper.ResolveRelPath(fp);
         }
     }
 };
