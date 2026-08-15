@@ -110,6 +110,13 @@ namespace BetterScan
                 if (item.Selected)
                 {
                     Game g = Impl.GenGame(item, plugin.PlayniteApi, settings.Settings);
+                    try
+                    {
+                        g.Icon = plugin.PlayniteApi.Database.AddFile(g.Icon, g.Id);
+                    }
+                    catch (Exception)
+                    {
+                    }
                     plugin.PlayniteApi.Database.Games.Add(g);
                 }
                 else
