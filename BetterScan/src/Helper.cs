@@ -170,6 +170,10 @@ namespace BetterScan
             {
                 TsudaKageyu.IconExtractor iconex = new TsudaKageyu.IconExtractor(fp);
                 System.Drawing.Icon icon = iconex.Count > 0 ? iconex.GetIcon(0) : null;
+                if (icon is null)
+                {
+                    return null;
+                }
                 return System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
                  icon.Handle,
                  new Int32Rect(0, 0, icon.Width, icon.Height),

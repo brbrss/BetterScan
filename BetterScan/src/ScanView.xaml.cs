@@ -50,13 +50,14 @@ namespace BetterScan
             //{
             //    folder = toRelFolder(folder);
             //}
-            Window.GetWindow(this).Title = "Scan Result of " + folder;
+            Window.GetWindow(this).Title = "Better Scan Folder";
             //plugin.PlayniteApi.Dialogs.ShowMessage(folder);
         }
 
 
         private void ClickScan(object sender, RoutedEventArgs e)
         {
+            //Window.GetWindow(this).Title = "Scan in progress. This may take a while.";
             string path = model.TargetFolder;
             IEnumerable<string> plist
                 = from x in settings.Settings.MatchPattern.Split(',')
@@ -88,6 +89,8 @@ namespace BetterScan
                 logger.Error(E.Message);
                 plugin.PlayniteApi.Dialogs.ShowErrorMessage(E.Message, " Error");
             }
+            Window.GetWindow(this).Title = "Scan Result of " + model.TargetFolder;
+
         }
         private void SavePath()
         {
