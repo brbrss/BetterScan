@@ -159,7 +159,7 @@ namespace BetterScan
                 Name = name,
                 InstallDirectory = installDir,
                 IsInstalled = true,
-                Icon = Helper.GetIconTempPath(candi.EntryFilePath, settings)
+                //Icon = Helper.GetIconTempPath(candi.EntryFilePath, settings)
             };
             GameAction action = new GameAction
             {

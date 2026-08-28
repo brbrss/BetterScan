@@ -112,10 +112,13 @@ namespace BetterScan
                     Game g = Impl.GenGame(item, plugin.PlayniteApi, settings.Settings);
                     try
                     {
-                        g.Icon = plugin.PlayniteApi.Database.AddFile(g.Icon, g.Id);
+                        string iconTempPath = Helper.CreateIconTemp(item.EntryFilePath, settings.Settings);
+                        g.Icon = plugin.PlayniteApi.Database.AddFile(iconTempPath, g.Id);
+                        File.Delete(iconTempPath);
                     }
-                    catch (Exception)
+                    catch (Exception E)
                     {
+                        logger.Error(E.Message);
                     }
                     plugin.PlayniteApi.Database.Games.Add(g);
                 }

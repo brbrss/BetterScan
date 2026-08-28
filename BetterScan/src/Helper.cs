@@ -181,7 +181,7 @@ namespace BetterScan
             }
         }
 
-        public static string GetIconTempPath(string fp, BetterScanSettings settings)
+        public static string CreateIconTemp(string fp, BetterScanSettings settings)
         {
             string res = null;
             try
@@ -192,6 +192,7 @@ namespace BetterScan
                     string tempfp = Path.GetTempPath() + Guid.NewGuid().ToString() + ".png";
                     var f = new FileStream(tempfp, FileMode.CreateNew);
                     iconex.Save(0, f);
+                    f.Close();
                     res = tempfp;
                 }
 
