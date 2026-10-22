@@ -9,6 +9,8 @@ using System.Windows.Data;
 using System.IO;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace BetterScan
 {
@@ -55,21 +57,30 @@ namespace BetterScan
         }
 
 
-        private void ClickScan(object sender, RoutedEventArgs e)
+
+        private async void ClickScan(object sender, RoutedEventArgs e)
         {
-            //Window.GetWindow(this).Title = "Scan in progress. This may take a while.";
             string path = model.TargetFolder;
+            IEnumerable<string> exFolder = Impl.GetExcludedDir(plugin.PlayniteApi);
             IEnumerable<string> plist
                 = from x in settings.Settings.MatchPattern.Split(',')
                   select x.Trim();
             IEnumerable<string> slist
                 = from x in settings.Settings.SkipPattern.Split(',')
                   select x.Trim();
-            //List<string> plist = new List<string> { "*.exe", "*.bat" };
-            var exFolder = Impl.GetExcludedDir(plugin.PlayniteApi);
+
+
+            Window.GetWindow(this).Title = "Scan in progress. This may take a while.";
+            model.CandidateList = new List<Candidate>();
+            var task = Task.Run(() =>
+            {
+                //Thread.Sleep(8000);
+                var res = Helper.Search(path, exFolder, plist, slist);
+                return res;
+            });
             try
             {
-                List<FileInfo> res = Helper.Search(path, exFolder, plist, slist);
+                var res = await task;
                 var arr = new List<Candidate>();
                 foreach (var item in res)
                 {
@@ -81,15 +92,16 @@ namespace BetterScan
                     };
                     arr.Add(c);
                 }
+
                 model.CandidateList = arr;
                 this.SavePath();
+                Window.GetWindow(this).Title = "Scan Result of " + model.TargetFolder;
             }
             catch (Exception E)
             {
                 logger.Error(E.Message);
                 plugin.PlayniteApi.Dialogs.ShowErrorMessage(E.Message, " Error");
             }
-            Window.GetWindow(this).Title = "Scan Result of " + model.TargetFolder;
 
         }
         private void SavePath()
