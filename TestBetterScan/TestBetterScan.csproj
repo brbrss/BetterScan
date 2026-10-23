@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="test_resource\layer\data\start.bat" />
     <None Include="test_resource\real\data\start.bat" />
   </ItemGroup>
   <ItemGroup>
@@ -67,7 +68,38 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="test_resource\2exclude\mytext.txt" />
+    <Content Include="test_resource\2exclude\one\one.exe" />
+    <Content Include="test_resource\2exclude\run.exe" />
+    <Content Include="test_resource\2exclude\three\two.exe" />
+    <Content Include="test_resource\2exclude\two\two.exe" />
     <Content Include="test_resource\bigboo\run.exe" />
+    <Content Include="test_resource\earlystop\nested\only\alsoyes.exe" />
+    <Content Include="test_resource\earlystop\nested\only\yes.exe" />
+    <Content Include="test_resource\earlystop\stop\junk\deep.exe" />
+    <Content Include="test_resource\earlystop\stop\one.exe" />
+    <Content Include="test_resource\earlystop\stop\two.exe" />
+    <Content Include="test_resource\icon\_test_1builtinIco\Playnite.DesktopApp.exe" />
+    <Content Include="test_resource\icon\_test_2adjacentIco\icon.ico" />
+    <Content Include="test_resource\icon\_test_2adjacentIco\run.exe" />
+    <Content Include="test_resource\icon\_test_3multiple\good.exe" />
+    <Content Include="test_resource\icon\_test_3multiple\Playnite.DesktopApp.exe" />
+    <Content Include="test_resource\icon\_test_4noIco\good.exe" />
+    <Content Include="test_resource\moremulti\one - Copy %282%29.exe" />
+    <Content Include="test_resource\moremulti\one - Copy %283%29.exe" />
+    <Content Include="test_resource\moremulti\one - Copy %284%29.exe" />
+    <Content Include="test_resource\moremulti\one - Copy.exe" />
+    <Content Include="test_resource\moremulti\one.exe" />
+    <Content Include="test_resource\moremulti\three - Copy %282%29.exe" />
+    <Content Include="test_resource\moremulti\three - Copy %283%29.exe" />
+    <Content Include="test_resource\moremulti\three - Copy %284%29.exe" />
+    <Content Include="test_resource\moremulti\three - Copy.exe" />
+    <Content Include="test_resource\moremulti\three.exe" />
+    <Content Include="test_resource\moremulti\two - Copy %282%29.exe" />
+    <Content Include="test_resource\moremulti\two - Copy %283%29.exe" />
+    <Content Include="test_resource\moremulti\two - Copy %284%29.exe" />
+    <Content Include="test_resource\moremulti\two - Copy.exe" />
+    <Content Include="test_resource\moremulti\two.exe" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="test_resource\multi\" />
@@ -81,4 +113,7 @@
   </Target>
   <Import Project="..\BetterScan\packages\MSTest.TestAdapter.2.1.2\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\BetterScan\packages\MSTest.TestAdapter.2.1.2\build\net45\MSTest.TestAdapter.targets')" />
   <Import Project="..\packages\MSTest.TestAdapter.2.1.2\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.2.1.2\build\net45\MSTest.TestAdapter.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>XCOPY "$(ProjectDir)test_resource" "$(TargetDir)test_resource" /e /i /y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

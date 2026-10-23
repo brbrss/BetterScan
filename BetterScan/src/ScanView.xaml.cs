@@ -68,14 +68,14 @@ namespace BetterScan
             IEnumerable<string> slist
                 = from x in settings.Settings.SkipPattern.Split(',')
                   select x.Trim();
-
+            bool earlyStop = settings.Settings.OptionEarlyStop;
 
             Window.GetWindow(this).Title = "Scan in progress. This may take a while.";
             model.CandidateList = new List<Candidate>();
             var task = Task.Run(() =>
             {
                 //Thread.Sleep(8000);
-                var res = Helper.Search(path, exFolder, plist, slist);
+                var res = Helper.Search(path, exFolder, plist, slist, earlyStop);
                 return res;
             });
             try

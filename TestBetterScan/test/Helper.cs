@@ -42,7 +42,7 @@ namespace TestBetterScan
             List<string> plist = new List<string> { "*" };
             List<string> slist = new List<string> { };
             IEnumerable<string> exfolder = new List<String>();
-            List<FileInfo> res = BetterScan.Helper.Search(path, exfolder, plist, slist);
+            List<FileInfo> res = BetterScan.Helper.Search(path, exfolder, plist, slist, false);
             string cwd = Directory.GetCurrentDirectory();
             Assert.AreEqual(res.Count, 2);
             var resPath = from x in res select x.FullName.Replace(cwd, "");
@@ -53,16 +53,43 @@ namespace TestBetterScan
         public void TestScan_exclude()
         {
             string cwd = Directory.GetCurrentDirectory();
-            string path = "test_resource/";
+            string path = "test_resource/2exclude";
             List<string> plist = new List<string> { "*" };
             List<string> slist = new List<string> { };
 
             IEnumerable<string> exfolder
-                = new List<String> { cwd + "\\test_resource\\moremulti" ,
-                    cwd+ "\\test_resource\\multi" };
-            var res = Helper.Search(path, exfolder, plist, slist);
+                = new List<String> { cwd + "\\test_resource\\2exclude\\two" ,
+                    cwd+ "\\test_resource\\2exclude\\three" };
+            var res = Helper.Search(path, exfolder, plist, slist, false);
             Assert.AreEqual(3, res.Count);
         }
+        [TestMethod]
+        public void TestScan_stop()
+        {
+            string cwd = Directory.GetCurrentDirectory();
+            string path = "test_resource/earlystop/nested";
+            List<string> plist = new List<string> { "*.exe" };
+            List<string> slist = new List<string> { };
+
+            IEnumerable<string> exfolder
+                = new List<String> { };
+            var res = Helper.Search(path, exfolder, plist, slist, true);
+            Assert.AreEqual(2, res.Count);
+        }
+        [TestMethod]
+        public void TestScan_stop2()
+        {
+            string cwd = Directory.GetCurrentDirectory();
+            string path = "test_resource/earlystop/stop";
+            List<string> plist = new List<string> { "*" };
+            List<string> slist = new List<string> { };
+
+            IEnumerable<string> exfolder
+                = new List<String> { };
+            var res = Helper.Search(path, exfolder, plist, slist, true);
+            Assert.AreEqual(2, res.Count);
+        }
+
 
         [TestMethod]
         public void TestToRelPath_basic()

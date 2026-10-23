@@ -11,9 +11,12 @@
         <Label>Skip Pattern (comma separated)</Label>
         <TextBox Text="{Binding Settings.SkipPattern}"/>
         <CheckBox IsChecked="{Binding Settings.OptionUseFolder}" 
-                  Content="Set game name to folder name, use file name when unchecked"/>
+                Content="Use folder name"  ToolTip="Set game name to folder name, will use file name when unchecked"/>
         <CheckBox IsChecked="{Binding Settings.OptionRelPath}" Content="Use relative install path"/>
         <CheckBox IsChecked="{Binding Settings.OptionSearchAdjacentIco}" 
-                  Content="Use .ico file in folder if target does not contain icon"/>
+                 Content="Search for .ico file" ToolTip="Use .ico file in folder if target does not contain icon"/>
+        <CheckBox IsChecked="{Binding Settings.OptionEarlyStop}" 
+                  Content="Early stop" ToolTip="Skip subfolders if targets are found in a folder."/>
+
     </StackPanel>
 </UserControl>

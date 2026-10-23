@@ -32,8 +32,8 @@ namespace BetterScan
         public static List<FileInfo> Search(string path,
             IEnumerable<string> excludedFolderList,
             IEnumerable<string> pattern,
-            IEnumerable<string> skipPattern
-
+            IEnumerable<string> skipPattern,
+            bool earlyStop
             )
         {
             List<Regex> patternList = new List<Regex>();
@@ -50,13 +50,14 @@ namespace BetterScan
                 Regex p = new Regex(ss);
                 skipList.Add(p);
             }
-            return Search(path, excludedFolderList, patternList, skipList);
+            return Search(path, excludedFolderList, patternList, skipList, earlyStop);
         }
         private static List<FileInfo> Search(
             string path,
             IEnumerable<string> excludedFolderList,
             IEnumerable<Regex> patternList,
-            IEnumerable<Regex> skipList
+            IEnumerable<Regex> skipList,
+            bool earlyStop
             )
         {
             List<FileInfo> res = new List<FileInfo>();
@@ -82,6 +83,10 @@ namespace BetterScan
                 {
                 }
             }
+            if (res.Count() > 0 && earlyStop)
+            {
+                return res;
+            }
             foreach (var fi in di.EnumerateDirectories())
             {
                 try
@@ -89,7 +94,7 @@ namespace BetterScan
                     if (!excludedFolderList.Contains(fi.FullName))
                     {
                         var subRes = Search(fi.FullName,
-                            excludedFolderList, patternList, skipList);
+                            excludedFolderList, patternList, skipList, earlyStop);
                         res.AddRange(subRes);
                     }
                 }
