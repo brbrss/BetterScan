@@ -35,6 +35,7 @@ namespace BetterScan
                 this.plugin = plugin;
                 this.settings = settings;
                 this.model.TargetFolder = settings.Settings.TargetFolder;
+                this.model.OptionEarlyStop = settings.Settings.OptionEarlyStop;
                 DataContext = model;
                 InitializeComponent();
             }
@@ -68,7 +69,7 @@ namespace BetterScan
             IEnumerable<string> slist
                 = from x in settings.Settings.SkipPattern.Split(',')
                   select x.Trim();
-            bool earlyStop = settings.Settings.OptionEarlyStop;
+            bool earlyStop = model.OptionEarlyStop;
 
             Window.GetWindow(this).Title = "Scan in progress. This may take a while.";
             model.CandidateList = new List<Candidate>();
@@ -94,7 +95,7 @@ namespace BetterScan
                 }
 
                 model.CandidateList = arr;
-                this.SavePath();
+                this.SaveSettings();
                 Window.GetWindow(this).Title = "Scan Result of " + model.TargetFolder;
             }
             catch (Exception E)
@@ -104,10 +105,11 @@ namespace BetterScan
             }
 
         }
-        private void SavePath()
+        private void SaveSettings()
         {
             settings.BeginEdit();
             settings.Settings.TargetFolder = this.model.TargetFolder;
+            settings.Settings.OptionEarlyStop = model.OptionEarlyStop;
             settings.EndEdit();
         }
 

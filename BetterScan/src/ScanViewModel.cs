@@ -10,8 +10,11 @@ namespace BetterScan
     {
         public string EntryFilePath { get; set; }
         private bool _Selected;
-        public bool Selected { get => _Selected;
-            set {
+        public bool Selected
+        {
+            get => _Selected;
+            set
+            {
                 _Selected = value;
                 OnPropertyChanged("Selected");
             }
@@ -22,12 +25,17 @@ namespace BetterScan
     public class ScanViewModel : ObservableObject
     {
         private string targetFolder = "";
-
+        private bool optionEarlyStop = false;
         private List<Candidate> candidateList = new List<Candidate> { };
         public string TargetFolder
         {
             get => targetFolder;
             set => SetValue(ref targetFolder, value);
+        }
+        public bool OptionEarlyStop
+        {
+            get => optionEarlyStop;
+            set => SetValue(ref optionEarlyStop, value);
         }
         public List<Candidate> CandidateList
         {

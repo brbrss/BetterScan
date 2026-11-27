@@ -42,8 +42,11 @@
 
             <Button Content="Select All"    Click="ClickSelectAll"  Margin="5"
                     DockPanel.Dock="Left" TabIndex="4"/>
+            <CheckBox IsChecked="{Binding OptionEarlyStop}" TabIndex="5"
+                  Content="Early stop" ToolTip="Skip subfolders if targets are found in a folder."/>
+
         </DockPanel>
-        
+
         <DockPanel Dock="Bottom" LastChildFill="True" >
             <Label Content="Folder Path:"  Margin="5"/>
             <Label  Margin="5"
@@ -55,35 +58,35 @@
 
         <DockPanel Dock="Top" VerticalAlignment="Stretch"
                    HorizontalAlignment="Stretch">
-            
 
-        <ListView ItemsSource="{Binding CandidateList}" 
+
+            <ListView ItemsSource="{Binding CandidateList}" 
                 MinHeight="250"  Height="auto"  Margin="5" VerticalContentAlignment="Stretch"
                    HorizontalAlignment="Stretch">
 
 
-            <ListView.View>
+                <ListView.View>
 
-                <GridView AllowsColumnReorder="false" ColumnHeaderToolTip="Scan Result">
-                    <GridViewColumn CellTemplate="{StaticResource FirstCell}"     Width="30"/>
-                    <!--<GridViewColumn DisplayMemberBinding="{Binding Path=Selected}" Header="Selected" Width="30"/>-->
-                    <GridViewColumn Header="Icon">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding Path=IconData}"  Width="18"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridView AllowsColumnReorder="false" ColumnHeaderToolTip="Scan Result">
+                        <GridViewColumn CellTemplate="{StaticResource FirstCell}"     Width="30"/>
+                        <!--<GridViewColumn DisplayMemberBinding="{Binding Path=Selected}" Header="Selected" Width="30"/>-->
+                        <GridViewColumn Header="Icon">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Path=IconData}"  Width="18"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                    <GridViewColumn 
+                        <GridViewColumn 
                         DisplayMemberBinding="{Binding Path=EntryFilePath}" 
                         Header="File Path"
                         Width="auto" />
-                </GridView>
+                    </GridView>
 
-            </ListView.View>
-        </ListView>
-        
+                </ListView.View>
+            </ListView>
+
         </DockPanel>
 
     </DockPanel>
